@@ -17,6 +17,7 @@ It is designed for operators who manage Amazon listings every day and need a fas
 ## Start Here
 
 - New user: follow [`Quick Start`](#quick-start).
+- Want to see a workflow example: read [`docs/DEMO.md`](docs/DEMO.md).
 - Want to test the import shape: open [`examples/sample-asins.csv`](examples/sample-asins.csv).
 - Want to understand future direction: read [`docs/ROADMAP.md`](docs/ROADMAP.md).
 - Want to contribute safely: read [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`SECURITY.md`](SECURITY.md).
@@ -28,6 +29,7 @@ It is designed for operators who manage Amazon listings every day and need a fas
 - [Features](#features)
 - [Quick Start](#quick-start)
 - [Example Input](#example-input)
+- [Demo Workflow](#demo-workflow)
 - [Privacy And Data](#privacy-and-data)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
@@ -114,6 +116,10 @@ The dashboard expects rows shaped like this:
 | `B000000001` | `Demo-Store-A` | `T-DEMO-001-BK` | `99.99` |
 
 For Excel import, open the sample CSV in a spreadsheet editor and save it as `.xlsx`.
+
+## Demo Workflow
+
+See [`docs/DEMO.md`](docs/DEMO.md) for a public-safe walkthrough showing how a marketplace operator can review price changes, unavailable ASINs, and exportable follow-up results.
 
 ## Optional ERP Configuration
 
