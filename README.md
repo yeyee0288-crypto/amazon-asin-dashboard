@@ -109,11 +109,15 @@ Fill in your own ERP URLs and credentials in the dashboard or local environment.
 - Better anti-redirect evidence and screenshots for unavailable ASINs.
 - Docker packaging for server deployment.
 
+See [`docs/ROADMAP.md`](docs/ROADMAP.md) for the fuller product direction.
+
 ## Contributing
 
 Issues and pull requests are welcome. Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) before sharing bug reports, screenshots, or sample files.
 
 Use fake or public-safe examples whenever possible. Do not post ERP credentials, cookies, private inventory files, internal URLs, or business-sensitive exports.
+
+For security or sensitive-data concerns, see [`SECURITY.md`](SECURITY.md).
 
 ## Build Windows App
 
