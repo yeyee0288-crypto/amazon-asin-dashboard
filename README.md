@@ -2,6 +2,8 @@
 
 **Amazon ASIN price, availability, seller, and inventory risk monitor for marketplace operators.**
 
+![ASIN Watchtower product preview](docs/assets/asin-watchtower-price-stock-hero.png)
+
 ASIN Watchtower is a local web dashboard for marketplace teams that need to monitor many Amazon ASINs at once. It helps operators spot price changes, out-of-stock redirects, seller changes, low-stock warnings, ERP inventory risk, and differences from the previous run.
 
 It is designed for people who manage Amazon listings, store links, ERP SKUs, and replenishment decisions every day.
