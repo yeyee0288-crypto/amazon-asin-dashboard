@@ -2,11 +2,35 @@
 
 **A local Amazon ASIN price and availability monitor for marketplace operators.**
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Local-lightgrey.svg)
+![Data](https://img.shields.io/badge/Data-local--first-teal.svg)
+![Status](https://img.shields.io/badge/Status-active-orange.svg)
+
 ![ASIN Watchtower product preview](docs/assets/asin-watchtower-price-stock-hero.png)
 
 ASIN Watchtower helps marketplace teams batch-check Amazon ASINs, compare expected price with current price, detect unavailable listings, and review changes from the previous run in one local dashboard.
 
 It is designed for operators who manage Amazon listings every day and need a faster way to answer: **Did the price change? Is this ASIN still sellable? Which products need attention first?**
+
+## Start Here
+
+- New user: follow [`Quick Start`](#quick-start).
+- Want to test the import shape: open [`examples/sample-asins.csv`](examples/sample-asins.csv).
+- Want to understand future direction: read [`docs/ROADMAP.md`](docs/ROADMAP.md).
+- Want to contribute safely: read [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`SECURITY.md`](SECURITY.md).
+
+## Contents
+
+- [What It Helps You Catch](#what-it-helps-you-catch)
+- [Core Workflow](#core-workflow)
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Example Input](#example-input)
+- [Privacy And Data](#privacy-and-data)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
 
 ## What It Helps You Catch
 
