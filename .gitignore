@@ -35,6 +35,8 @@ erp_debug/
 *.sqlite
 *.sqlite3
 *.jsonl
+!examples/
+!examples/*.csv
 
 # Local dashboard caches can contain ERP credentials, inventory, SKU maps,
 # scrape history, and debug HTML/screenshots.

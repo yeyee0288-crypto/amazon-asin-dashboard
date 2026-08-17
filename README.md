@@ -79,6 +79,18 @@ Then open:
 http://127.0.0.1:8080
 ```
 
+## Example Input
+
+See [`examples/sample-asins.csv`](examples/sample-asins.csv) for a public-safe template.
+
+The dashboard expects rows shaped like this:
+
+| ASIN or URL | Store-link name | ERP SKU | Expected price |
+| --- | --- | --- | --- |
+| `B000000001` | `Demo-Store-A` | `T-DEMO-001-BK` | `99.99` |
+
+For Excel import, open the sample CSV in a spreadsheet editor and save it as `.xlsx`.
+
 ## Optional ERP Configuration
 
 Copy `.env.example` to `.env` for local-only settings.
