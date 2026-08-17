@@ -1,40 +1,54 @@
 # ASIN Watchtower
 
-**Amazon ASIN price, availability, seller, and inventory risk monitor for marketplace operators.**
+**A local Amazon ASIN price and availability monitor for marketplace operators.**
 
 ![ASIN Watchtower product preview](docs/assets/asin-watchtower-price-stock-hero.png)
 
-ASIN Watchtower is a local web dashboard for marketplace teams that need to monitor many Amazon ASINs at once. It helps operators spot price changes, out-of-stock redirects, seller changes, low-stock warnings, ERP inventory risk, and differences from the previous run.
+ASIN Watchtower helps marketplace teams batch-check Amazon ASINs, compare expected price with current price, detect unavailable listings, and review changes from the previous run in one local dashboard.
 
-It is designed for people who manage Amazon listings, store links, ERP SKUs, and replenishment decisions every day.
+It is designed for operators who manage Amazon listings every day and need a faster way to answer: **Did the price change? Is this ASIN still sellable? Which products need attention first?**
 
-## Why This Exists
+## What It Helps You Catch
 
-Marketplace operators often need to answer questions like:
+| Signal | What it means |
+| --- | --- |
+| Price changed | Current Amazon price is different from the expected price or previous run. |
+| Out of stock | The target ASIN appears unavailable or redirects to a different ASIN. |
+| Missing offer | Amazon shows no featured offer or no usable price. |
+| Seller changed | The current seller is different from the expected seller context. |
+| Low stock hint | Amazon shows a limited-stock message such as only a few units left. |
+| ERP inventory risk | Optional local ERP import can classify stock risk beside Amazon status. |
 
-- Which ASINs changed price since the last check?
-- Which products are sellable on Amazon but have no ERP stock?
-- Which ASINs are out of stock on Amazon while ERP still has inventory?
-- Which listings redirected to another ASIN and should be treated as unavailable?
-- Which seller, brand, ERP SKU, or store-link group needs attention first?
+## Core Workflow
 
-ASIN Watchtower turns those checks into a local workflow that can be reviewed, filtered, compared, and exported.
+1. Paste ASINs or Amazon product links into the dashboard.
+2. Add optional store-link names, ERP SKUs, and expected prices.
+3. Start a batch check from the local web interface.
+4. Review current price, availability, seller, status, and change indicators.
+5. Filter by status, compare with the previous run, and export results to Excel.
 
 ## Features
 
-- Batch input of Amazon ASINs or product links.
-- Grouping by store link name and ERP SKU.
-- Amazon status detection, including missing offer, out-of-stock, low-stock hints, and ASIN redirect mismatch.
-- Optional ERP inventory import and SKU mapping import from Excel files.
-- Optional local ERP auto-update via environment variables.
-- Excel export for current results.
-- Local history comparison for the previous run.
+- Batch input for ASINs and product links.
+- Expected price vs current price comparison.
+- Availability and redirect mismatch detection.
+- Status filters for successful, abnormal, failed, out-of-stock, and price-different results.
+- Previous-run comparison for changed, new, and missing ASINs.
+- Seller, brand, title, store-link name, and ERP SKU display.
+- Optional ERP inventory import and SKU mapping import from Excel.
+- Excel export for analysis and team follow-up.
 
 ## Product Positioning
 
-**For Amazon operators and marketplace teams**, ASIN Watchtower is a local monitoring workspace that combines Amazon listing checks with ERP inventory context, so teams can catch sellability, replenishment, and pricing risks before they become operational problems.
+**For Amazon operators and marketplace teams**, ASIN Watchtower is a local monitoring workspace that turns repetitive ASIN checks into a reviewable, filterable, and exportable workflow.
 
-Unlike one-off scraping scripts, it provides a dashboard, filters, local history comparison, Excel export, and inventory-risk classification in one workflow.
+Unlike one-off scraping scripts, it provides a product-style dashboard, local history comparison, Excel export, and operational risk classification in one place.
+
+## Local-First By Design
+
+This project runs on your own machine. Inventory files, ERP settings, runtime cache, and exported results are intentionally kept out of the repository.
+
+That makes it easier to adapt the tool to private workflows without publishing sensitive operational data.
 
 ## Privacy And Data
 
