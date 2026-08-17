@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon ASIN 店铺链接名抓取台</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v={{ app_version }}">
+</head>
+<body>
+  <div class="page-shell">
+    <div class="hero-backdrop"></div>
+
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Amazon ASIN Workspace</p>
+        <h1>批量抓取、自动分组、集中导出</h1>
+        <p class="hero-copy">
+          输入 ASIN 或亚马逊链接后，系统会自动抓取价格，并按“店铺链接名”或“来源链接”整理结果。
+        </p>
+      </div>
+      <div class="hero-badges">
+        <span class="hero-badge">Version {{ app_version }}</span>
+        <span class="hero-badge">实时进度</span>
+        <span class="hero-badge">链接归组</span>
+        <span class="hero-badge">Excel 导出</span>
+      </div>
+    </header>
+
+    <main class="workspace-grid">
+      <section class="panel dashboard-panel dashboard-top" id="dashboard-panel">
+        <div class="dashboard-head">
+          <div>
+            <p class="panel-kicker">数据仪表盘</p>
+            <h2>本次抓取概览与前后对比</h2>
+            <p class="dashboard-subtitle">自动对比上一次完整抓取结果，快速定位价格和状态变化。</p>
+          </div>
+          <div class="dashboard-baseline" id="dashboard-baseline">暂无上次抓取数据</div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="dashboard-metrics">
+            <button type="button" class="metric-tile metric-total active" data-dashboard-filter="all"><span>本次商品</span><strong id="dash-total">0</strong><small>点击查看全部变化商品</small></button>
+            <button type="button" class="metric-tile metric-change" data-dashboard-filter="changed"><span>发生变化</span><strong id="dash-changed">0</strong><small>点击查看价格或状态变化</small></button>
+            <button type="button" class="metric-tile metric-new" data-dashboard-filter="new"><span>新增商品</span><strong id="dash-new">0</strong><small>点击查看上次未出现商品</small></button>
+            <button type="button" class="metric-tile metric-removed" data-dashboard-filter="removed"><span>本次未出现</span><strong id="dash-removed">0</strong><small>点击查看上次存在的 ASIN</small></button>
+          </div>
+
+          <div class="risk-radar" id="risk-radar">
+            <div class="risk-radar-title">
+              <span>关键风险雷达</span>
+              <small>点击卡片筛选下方结果</small>
+            </div>
+            <button type="button" class="risk-tile risk-danger" data-business-risk="oversell"><span>超卖风险</span><strong id="dash-oversell">0</strong><small>Amazon 可售 · ERP 缺货</small></button>
+            <button type="button" class="risk-tile risk-warn" data-business-risk="near_oversell"><span>即将超卖</span><strong id="dash-near-oversell">0</strong><small>Amazon 可售 · ERP 1-10</small></button>
+            <button type="button" class="risk-tile risk-accent" data-business-risk="replenish_opportunity"><span>可补货机会</span><strong id="dash-replenish">0</strong><small>Amazon 缺货 · ERP 有货</small></button>
+            <button type="button" class="risk-tile risk-quote" data-business-risk="quote_abnormal"><span>报价异常</span><strong id="dash-quote-risk">0</strong><small>比价/无购物车 · ERP 有货</small></button>
+          </div>
+
+          <div class="comparison-card comparison-card-expanded">
+            <div class="comparison-card-head">
+              <div>
+                <h3>与上次结果对比</h3>
+                <p>按 ASIN 详细展示价格、状态、品牌、店铺、库存等字段的前后变化</p>
+              </div>
+              <div class="comparison-card-side">
+                <span class="comparison-count" id="comparison-count">0 处变化</span>
+                <div class="comparison-mini-summary" id="comparison-mini-summary"></div>
+              </div>
+            </div>
+            <div class="comparison-list" id="comparison-list">
+              <div class="comparison-empty">完成一次抓取后，这里会显示变化。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel insight-panel">
+        <div class="panel-head compact">
+          <div>
+            <p class="panel-kicker">总览</p>
+            <h2>本次任务状态</h2>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <span class="stat-label">待抓取</span>
+            <strong id="stat-total">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">成功</span>
+            <strong id="stat-success">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">异常</span>
+            <strong id="stat-warning">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">失败</span>
+            <strong id="stat-fail">0</strong>
+          </div>
+        </div>
+
+        <div id="progress-area" class="progress-panel" hidden>
+          <div class="progress-meta">
+            <span>抓取进度</span>
+            <span id="progress-text">0 / 0</span>
+          </div>
+          <div class="progress-track">
+            <div id="progress-bar" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="mini-card">
+          <h3>店铺链接名预览</h3>
+          <div id="group-preview" class="group-preview">还没有录入数据</div>
+        </div>
+
+        <div class="mini-card">
+          <h3>快捷键</h3>
+          <p>Ctrl + Enter 立即开始抓取</p>
+          <p>回车可在录入区快速新增一行</p>
+        </div>
+      </aside>
+    </main>
+
+    <section class="panel intake-panel intake-followup">
+        <div class="panel-head">
+          <div>
+            <p class="panel-kicker">录入区</p>
+            <h2>ASIN / 链接清单</h2>
+          </div>
+          <div class="intake-head-actions">
+            <div class="panel-tip">支持粘贴多行、Excel 导入、自动保存</div>
+            <button type="button" id="intake-toggle" class="btn btn-ghost intake-toggle" aria-expanded="true">收起清单</button>
+          </div>
+        </div>
+
+        <div id="intake-list-body">
+        <div class="auto-rule">
+          <div class="auto-rule-title">店铺链接名规则</div>
+          <div class="auto-rule-text">
+            如果填写“店铺链接名”，结果优先按店铺链接名归组；如果留空，系统会按来源链接自动归组。
+          </div>
+        </div>
+
+        <div class="inventory-panel">
+          <div class="inventory-head">
+            <div>
+              <div class="auto-rule-title">ERP 库存风险</div>
+              <div class="auto-rule-text">先导入 ERP 库存和 SKU 映射表，系统会按“通用SKU → 实际SKU → ERP库存”判断缺货、即将缺货和可替代库存。</div>
+            </div>
+            <div class="inventory-actions">
+              <button type="button" id="erp-auto-update-btn" class="btn btn-primary">自动更新ERP库存</button>
+              <button type="button" id="inventory-import-btn" class="btn btn-ghost">导入ERP库存</button>
+              <button type="button" id="sku-map-import-btn" class="btn btn-ghost">导入SKU映射表</button>
+              <input type="file" id="inventory-file" accept=".xlsx,.xls" hidden>
+              <input type="file" id="sku-map-file" accept=".xlsx,.xls" hidden>
+            </div>
+          </div>
+          <div class="erp-auto-config">
+            <label>
+              <span>ERP账号</span>
+              <input type="text" id="erp-username" autocomplete="username" placeholder="输入 ERP 账号">
+            </label>
+            <label>
+              <span>ERP密码</span>
+              <input type="password" id="erp-password" autocomplete="current-password" placeholder="留空则保留已保存密码">
+            </label>
+            <label>
+              <span>下载页地址</span>
+              <input type="text" id="erp-target-url" placeholder="https://your-erp.example.com/stock/export">
+            </label>
+            <label>
+              <span>下载按钮定位</span>
+              <input type="text" id="erp-download-target" placeholder="导出库存 / 下载 / css:.export-btn">
+            </label>
+            <button type="button" id="erp-config-save-btn" class="btn btn-ghost">保存ERP配置</button>
+            <div id="erp-auto-status" class="erp-auto-status">ERP自动更新：未配置</div>
+          </div>
+          <div class="inventory-status-grid">
+            <div class="inventory-status-card" id="inventory-status-card">ERP库存：未导入</div>
+            <div class="inventory-status-card" id="sku-map-status-card">SKU映射：未导入</div>
+          </div>
+          <div class="inventory-person-filter">
+            <label for="inventory-person-filter">
+              <span>库存负责人</span>
+              <select id="inventory-person-filter">
+                <option value="">全部库存</option>
+              </select>
+            </label>
+            <div id="inventory-person-filter-note" class="inventory-person-filter-note">
+              仅显示 ERP 库存表中指定部门的负责人。
+            </div>
+          </div>
+        </div>
+
+        <div class="input-table-wrap">
+          <table class="input-table">
+            <thead>
+              <tr>
+                <th style="width: 48px;">#</th>
+                <th style="width: 150px;">
+                  <div class="table-filter-head">
+                    <span>ASIN 或链接</span>
+                    <input type="search" id="input-asin-header-filter" class="table-header-filter" placeholder="筛 ASIN">
+                  </div>
+                </th>
+                <th style="width: 190px;">
+                  <div class="table-filter-head">
+                    <span>店铺链接名</span>
+                    <input type="search" id="input-category-header-filter" class="table-header-filter" placeholder="筛店铺链接名">
+                  </div>
+                </th>
+                <th style="width: 190px;">
+                  <div class="table-filter-head">
+                    <span>ERP SKU</span>
+                    <input type="search" id="input-note-header-filter" class="table-header-filter" placeholder="筛 ERP SKU">
+                  </div>
+                </th>
+                <th style="width: 120px;">
+                  <div class="table-filter-head">
+                    <span>预期价</span>
+                    <input type="search" id="input-price-header-filter" class="table-header-filter" placeholder="筛价格">
+                  </div>
+                </th>
+                <th style="width: 52px;"></th>
+              </tr>
+            </thead>
+            <tbody id="input-rows"></tbody>
+          </table>
+        </div>
+
+        <div class="input-pagination" id="input-pagination">
+          <div class="pagination-summary" id="input-page-summary">第 1 页</div>
+          <div class="pagination-actions">
+            <label for="input-page-size">每页</label>
+            <input type="number" id="input-page-size" class="page-size-input" min="1" max="500" step="1" value="20">
+            <button type="button" class="page-size-preset" data-page-size-preset="20">20</button>
+            <button type="button" class="page-size-preset" data-page-size-preset="50">50</button>
+            <button type="button" class="page-size-preset" data-page-size-preset="100">100</button>
+            <span>个 ASIN</span>
+            <button type="button" id="input-prev-page" class="btn btn-ghost page-btn">上一页</button>
+            <button type="button" id="input-next-page" class="btn btn-ghost page-btn">下一页</button>
+          </div>
+        </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="toolbar-group">
+            <button type="button" id="add-row-btn" class="btn btn-ghost">新增一行</button>
+            <button type="button" id="paste-btn" class="btn btn-ghost">剪贴板导入</button>
+            <button type="button" id="import-btn" class="btn btn-ghost">导入 Excel</button>
+            <input type="file" id="import-file" accept=".xlsx,.xls" hidden>
+          </div>
+          <span id="save-status" class="save-status"></span>
+        </div>
+
+        <div class="action-row">
+          <button type="button" id="start-btn" class="btn btn-primary">开始抓取</button>
+          <button type="button" id="stop-btn" class="btn btn-danger" hidden>停止剩余任务</button>
+        </div>
+
+        <div id="msg-box" class="msg-box" hidden></div>
+      </section>
+
+    <section id="results-area" class="panel results-panel" hidden>
+      <div class="results-head">
+        <div>
+          <p class="panel-kicker">结果区</p>
+          <h2>按店铺链接名查看 ASIN</h2>
+        </div>
+        <div class="results-actions">
+          <div id="summary-bar" class="summary-bar" hidden></div>
+          <button id="retry-failed-btn" class="btn btn-retry" hidden>重新抓取失败 ASIN</button>
+          <button id="export-btn" class="btn btn-secondary" hidden>导出 Excel</button>
+        </div>
+      </div>
+
+      <div id="group-filters" class="group-filters"></div>
+      <div id="results-groups" class="results-groups"></div>
+    </section>
+
+    <section class="panel log-panel">
+      <div class="panel-head compact clickable" id="log-toggle">
+        <div>
+          <p class="panel-kicker">仅保存在此网页</p>
+          <h2>操作日志</h2>
+        </div>
+        <span id="log-count" class="log-count">0</span>
+      </div>
+      <div class="log-body" id="log-body" hidden>
+        <div id="log-entries"></div>
+      </div>
+    </section>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}?v={{ app_version }}"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+__pycache__/
+*.py[cod]
+*.log
+
+build/
+dist/
+*.exe
+*.zip
+*.7z
+*.rar
+*.spec.bak
+
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+.DS_Store
+Thumbs.db
+
+# Runtime data and business files. Keep these local only.
+data/
+erp_js_cache/
+erp_downloads/
+erp_debug/
+*.xlsx
+*.xls
+*.csv
+*.db
+*.sqlite
+*.sqlite3
+*.jsonl
+
+# Local dashboard caches can contain ERP credentials, inventory, SKU maps,
+# scrape history, and debug HTML/screenshots.
+erp_inventory_cache.json
+sku_map_cache.json
+last_results_cache.json
+erp_auto_config.json
+
+# Generated design notes, not required to run the scraper.
+ui-optimization-routes.svg
